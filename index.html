@@ -587,15 +587,18 @@ function handleQuoteSubmit(e) {
     method: 'POST',
     body: data,
     headers: { 'Accept': 'application/json' }
-  }).then(response => {
+  }).then(async response => {
     if (response.ok) {
       alert('Merci ! Votre demande a été envoyée.');
       form.reset();
       closeQuote();
     } else {
-      alert('Erreur. Veuillez réessayer ou écrire à info@cfibusinessolution.com');
+      const err = await response.json().catch(() => ({}));
+      console.log('Formspree error:', err);
+      alert('Erreur Formspree. Vérifiez que le formulaire est confirmé dans formspree.io\nOu écrivez à info@cfibusinessolution.com');
     }
-  }).catch(() => {
+  }).catch(err => {
+    console.log(err);
     alert('Erreur de connexion. Écrivez directement à info@cfibusinessolution.com');
   });
 }
@@ -627,24 +630,24 @@ document.querySelectorAll('[data-i18n$=".content"]').forEach(el => {
     <h2 data-i18n="quote.title" style="margin-bottom:1rem; color:var(--blue-dark);">Obtenir un devis</h2>
     <form action="https://formspree.io/f/xnpjzlzg" method="POST" onsubmit="handleQuoteSubmit(event)" style="display:flex; flex-direction:column; gap:.9rem;">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:.8rem;">
-        <input type="text" placeholder="Prénom *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
-        <input type="text" placeholder="Nom *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
+        <input type="text" name="prenom" placeholder="Prénom *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
+        <input type="text" name="nom" placeholder="Nom *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
       </div>
-      <input type="email" placeholder="Courriel *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
+      <input type="email" name="email" placeholder="Courriel *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
       <div style="display:flex; gap:.5rem;">
-        <select id="phone-country" onchange="updateProvincesFromPhone()" style="padding:.7rem; border:1px solid #ddd; border-radius:8px; width:150px; font-size:1.05rem;">
+        <select id="phone-country" name="pays_code" onchange="updateProvincesFromPhone()" style="padding:.7rem; border:1px solid #ddd; border-radius:8px; width:150px; font-size:1.05rem;">
           <option value="CA">🇨🇦 Canada +1</option>
           <option value="US">🇺🇸 USA +1</option>
           <option value="CL">🇨🇱 Chile +56</option>
           <option value="MX">🇲🇽 México +52</option>
         </select>
-        <input type="tel" placeholder="Numéro *" required style="flex:1; padding:.7rem; border:1px solid #ddd; border-radius:8px;">
+        <input type="tel" name="telephone" placeholder="Numéro *" required style="flex:1; padding:.7rem; border:1px solid #ddd; border-radius:8px;">
       </div>
-      <input type="text" placeholder="Nom de l’entreprise *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
-      <select id="province" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
+      <input type="text" name="entreprise" placeholder="Nom de l’entreprise *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
+      <select id="province" name="province" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
         <option value="">Province / État / Región *</option>
       </select>
-      <select required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
+      <select name="service" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
         <option value="" data-i18n="quote.service">Service souhaité *</option>
         <option>Bookkeeping</option>
         <option>Payroll</option>
@@ -652,7 +655,7 @@ document.querySelectorAll('[data-i18n$=".content"]').forEach(el => {
         <option>Inventaires</option>
         <option>Préparation fiscale</option>
       </select>
-      <textarea rows="3" placeholder="Décrivez brièvement vos besoins *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;"></textarea>
+      <textarea name="message" rows="3" placeholder="Décrivez brièvement vos besoins *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;"></textarea>
       <button type="submit" class="btn" style="background:var(--red);" data-i18n="quote.send">Envoyer</button>
     </form>
   </div>
