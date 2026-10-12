@@ -578,6 +578,28 @@ function updateProvincesFromPhone() {
 }
 updateProvincesFromPhone();
 
+
+function handleQuoteSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  fetch(form.action, {
+    method: 'POST',
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  }).then(response => {
+    if (response.ok) {
+      alert('Merci ! Votre demande a été envoyée.');
+      form.reset();
+      closeQuote();
+    } else {
+      alert('Erreur. Veuillez réessayer ou écrire à info@cfibusinessolution.com');
+    }
+  }).catch(() => {
+    alert('Erreur de connexion. Écrivez directement à info@cfibusinessolution.com');
+  });
+}
+
 function openQuote() {
   document.getElementById('quote-modal').style.display = 'flex';
   // Force Canada as default and load provinces
@@ -603,7 +625,7 @@ document.querySelectorAll('[data-i18n$=".content"]').forEach(el => {
   <div style="background:#fff; border-radius:16px; max-width:520px; width:100%; max-height:90vh; overflow:auto; padding:1.8rem; position:relative;">
     <button onclick="closeQuote()" style="position:absolute; top:.8rem; right:1rem; background:none; border:none; font-size:1.6rem; cursor:pointer;">×</button>
     <h2 data-i18n="quote.title" style="margin-bottom:1rem; color:var(--blue-dark);">Obtenir un devis</h2>
-    <form action="mailto:info@cfibusinessolution.com" method="post" enctype="text/plain" onsubmit="setTimeout(closeQuote, 500);" style="display:flex; flex-direction:column; gap:.9rem;">
+    <form action="https://formspree.io/f/xnpjzlzg" method="POST" onsubmit="handleQuoteSubmit(event)" style="display:flex; flex-direction:column; gap:.9rem;">
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:.8rem;">
         <input type="text" placeholder="Prénom *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
         <input type="text" placeholder="Nom *" required style="padding:.7rem; border:1px solid #ddd; border-radius:8px;">
