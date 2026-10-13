@@ -1183,40 +1183,62 @@ const lang=document.documentElement.lang||"fr";for(const key of ["terms.content"
     <a id="cfi-human" href="https://tawk.to/chat/6acd75db127a3334c35769cf/1k4p98oeq" target="_blank" rel="noopener noreferrer">Parler à un conseiller ↗</a>
   </div>
 </section>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <script id="cfi-ai-chat-script">
 (()=>{
   const ENDPOINT='https://cfi-ai-assistant.operez-acreditacion.workers.dev/chat';
   const SITE_KEY='0x4AAAAAAFVl3csmH-PXdBVn';
-  const $=id=>document.getElementById(id), panel=$('cfi-chat-panel'), launch=$('cfi-chat-launch'), messages=$('cfi-chat-messages');
+  const $=id=>document.getElementById(id);
+  const panel=$('cfi-chat-panel'),launch=$('cfi-chat-launch'),messages=$('cfi-chat-messages');
   const labels={
-    fr:{welcome:'Bonjour ! Comment pouvons-nous vous aider aujourd’hui ?',subtitle:'Assistant virtuel · FR / EN / ES',placeholder:'Écrivez votre message…',human:'Parler à un conseiller ↗',note:'Ne partagez pas de renseignements financiers sensibles.',error:'Le service est temporairement indisponible. Contactez notre équipe.',verify:'Veuillez terminer la vérification de sécurité.'},
-    en:{welcome:'Hello! How can we help you today?',subtitle:'Virtual assistant · FR / EN / ES',placeholder:'Type your message…',human:'Speak to an adviser ↗',note:'Do not share sensitive financial information.',error:'The service is temporarily unavailable. Please contact our team.',verify:'Please complete the security check.'},
-    es:{welcome:'¡Hola! ¿En qué podemos ayudarte hoy?',subtitle:'Asistente virtual · FR / EN / ES',placeholder:'Escribe tu mensaje…',human:'Hablar con un asesor ↗',note:'No compartas información financiera confidencial.',error:'El servicio no está disponible temporalmente. Contacta con nuestro equipo.',verify:'Completa la verificación de seguridad.'}
+    fr:{welcome:'Bonjour ! Comment pouvons-nous vous aider aujourd’hui ?',subtitle:'Assistant virtuel · FR / EN / ES',placeholder:'Écrivez votre message…',human:'Parler à un conseiller ↗',note:'Ne partagez pas de renseignements financiers sensibles.',error:'Le service est temporairement indisponible. Contactez notre équipe.',verify:'La vérification de sécurité n’est pas encore terminée. Réessayez dans quelques secondes.',failed:'La vérification de sécurité a échoué. Vous pouvez réessayer ou parler à un conseiller.',retry:'Réessayer la vérification'},
+    en:{welcome:'Hello! How can we help you today?',subtitle:'Virtual assistant · FR / EN / ES',placeholder:'Type your message…',human:'Speak to an adviser ↗',note:'Do not share sensitive financial information.',error:'The service is temporarily unavailable. Please contact our team.',verify:'Security verification is not complete. Please try again in a few seconds.',failed:'Security verification failed. You can retry or speak to an adviser.',retry:'Retry verification'},
+    es:{welcome:'¡Hola! ¿En qué podemos ayudarte hoy?',subtitle:'Asistente virtual · FR / EN / ES',placeholder:'Escribe tu mensaje…',human:'Hablar con un asesor ↗',note:'No compartas información financiera confidencial.',error:'El servicio no está disponible temporalmente. Contacta con nuestro equipo.',verify:'La verificación de seguridad aún no termina. Intenta nuevamente en unos segundos.',failed:'Falló la verificación de seguridad. Puedes reintentar o hablar con un asesor.',retry:'Reintentar verificación'}
   };
-  let widgetId=null, busy=false, lang='fr';
+  let widgetId=null,busy=false,lang='fr',token='',widgetError=false,scriptLoaded=false;
+  const status=document.createElement('div');status.id='cfi-security-status';status.setAttribute('role','status');status.style.cssText='font-size:12px;color:#536174;margin-top:6px;';
+  const retry=document.createElement('button');retry.type='button';retry.id='cfi-security-retry';retry.style.cssText='display:none;margin-top:6px;padding:6px 10px;border:1px solid #cbd5e1;border-radius:7px;background:white;color:#142d48;cursor:pointer;font-size:12px;';
+  $('cfi-turnstile').insertAdjacentElement('afterend',status);status.insertAdjacentElement('afterend',retry);
   function add(text,kind){const el=document.createElement('div');el.className='msg '+kind;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;}
-  function update(){lang=labels[document.documentElement.lang]?document.documentElement.lang:'fr';const l=labels[lang];$('cfi-chat-subtitle').textContent=l.subtitle;$('cfi-chat-input').placeholder=l.placeholder;$('cfi-human').textContent=l.human;$('cfi-chat-note').textContent=l.note; if(!messages.children.length)add(l.welcome,'bot');}
-  function renderTurnstile(){if(widgetId!==null||!window.turnstile)return;widgetId=window.turnstile.render('#cfi-turnstile',{sitekey:SITE_KEY,theme:'auto'});}
+  function setStatus(text,showRetry=false){status.textContent=text||'';retry.style.display=showRetry?'inline-block':'none';}
+  function update(){lang=labels[document.documentElement.lang]?document.documentElement.lang:'fr';const l=labels[lang];$('cfi-chat-subtitle').textContent=l.subtitle;$('cfi-chat-input').placeholder=l.placeholder;$('cfi-human').textContent=l.human;$('cfi-chat-note').textContent=l.note;retry.textContent=l.retry;if(widgetError)setStatus(l.failed,true);if(!messages.children.length)add(l.welcome,'bot');}
+  function renderTurnstile(){
+    if(widgetId!==null||!scriptLoaded||!window.turnstile||!panel.classList.contains('open'))return;
+    try{
+      widgetId=window.turnstile.render('#cfi-turnstile',{
+        sitekey:SITE_KEY,theme:'auto',appearance:'always',
+        callback:value=>{token=value;widgetError=false;setStatus('');},
+        'expired-callback':()=>{token='';setStatus(labels[lang].verify,true);},
+        'timeout-callback':()=>{token='';setStatus(labels[lang].failed,true);},
+        'error-callback':code=>{token='';widgetError=true;console.warn('CFI Turnstile error:',code);setStatus(labels[lang].failed,true);}
+      });
+    }catch(err){widgetError=true;console.warn('CFI Turnstile initialization:',err);setStatus(labels[lang].failed,true);}
+  }
+  window.cfiTurnstileReady=()=>{scriptLoaded=true;renderTurnstile();};
+  window.cfiTurnstileLoadFailed=()=>{widgetError=true;setStatus(labels[lang].failed,true);};
+  retry.addEventListener('click',()=>{
+    token='';widgetError=false;setStatus(labels[lang].verify);
+    if(window.turnstile&&widgetId!==null){try{window.turnstile.reset(widgetId);}catch(e){console.warn('CFI Turnstile reset:',e);widgetId=null;renderTurnstile();}}
+    else renderTurnstile();
+  });
   launch.addEventListener('click',()=>{const open=!panel.classList.contains('open');panel.classList.toggle('open',open);launch.setAttribute('aria-expanded',String(open));if(open){update();renderTurnstile();$('cfi-chat-input').focus();}});
   $('cfi-chat-close').addEventListener('click',()=>{panel.classList.remove('open');launch.setAttribute('aria-expanded','false');});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))$('cfi-chat-close').click();});
   $('cfi-chat-form').addEventListener('submit',async e=>{
-    e.preventDefault();if(busy)return;const input=$('cfi-chat-input');const message=input.value.trim();if(!message)return;
-    renderTurnstile();const token=widgetId!==null&&window.turnstile?window.turnstile.getResponse(widgetId):'';
-    if(!token){add(labels[lang].verify,'bot');return;}
+    e.preventDefault();if(busy)return;const input=$('cfi-chat-input'),message=input.value.trim();if(!message)return;
+    renderTurnstile();if(!token){setStatus(widgetError?labels[lang].failed:labels[lang].verify,widgetError);return;}
     busy=true;$('cfi-chat-send').disabled=true;add(message,'user');input.value='';
-    try{const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,turnstileToken:token})});const data=await r.json();if(!r.ok||typeof data.reply!=='string')throw Error(data.error||'Chat unavailable');add(data.reply,'bot');}
+    const usedToken=token;token='';
+    try{const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,turnstileToken:usedToken})});const data=await r.json();if(!r.ok||typeof data.reply!=='string')throw Error(data.error||'Chat unavailable');add(data.reply,'bot');}
     catch(err){console.warn('CFI chat:',err.message);add(labels[lang].error,'bot');}
-    finally{busy=false;$('cfi-chat-send').disabled=false;if(widgetId!==null&&window.turnstile)window.turnstile.reset(widgetId);}
+    finally{busy=false;$('cfi-chat-send').disabled=false;if(widgetId!==null&&window.turnstile){try{window.turnstile.reset(widgetId);}catch(_){}}}
   });
   const original=window.setLang;window.setLang=function(l){if(typeof original==='function')original.apply(this,arguments);update();};
   new MutationObserver(()=>{if(panel.classList.contains('open'))update();}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
   update();
-  // Hide the old bubble only after launching the unified interface; human chat remains accessible through the link.
   function hideTawk(){try{if(window.Tawk_API&&typeof window.Tawk_API.hideWidget==='function')window.Tawk_API.hideWidget();}catch(_){}}
   window.Tawk_API=window.Tawk_API||{};const prev=window.Tawk_API.onLoad;window.Tawk_API.onLoad=function(){if(typeof prev==='function')prev();hideTawk();};hideTawk();
 })();
 </script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=cfiTurnstileReady" async defer onerror="cfiTurnstileLoadFailed()"></script>
 </body>
 </html>
