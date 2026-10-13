@@ -1209,7 +1209,7 @@ const lang=document.documentElement.lang||"fr";for(const key of ["terms.content"
         callback:value=>{token=value;widgetError=false;setStatus('');},
         'expired-callback':()=>{token='';setStatus(labels[lang].verify,true);},
         'timeout-callback':()=>{token='';setStatus(labels[lang].failed,true);},
-        'error-callback':code=>{token='';widgetError=true;console.warn('CFI Turnstile error:',code);setStatus(labels[lang].failed,true);}
+        'error-callback':code=>{token='';widgetError=true;console.warn('CFI Turnstile error:',code);setStatus(labels[lang].failed+' (Turnstile: '+String(code)+')',true);}
       });
     }catch(err){widgetError=true;console.warn('CFI Turnstile initialization:',err);setStatus(labels[lang].failed,true);}
   }
@@ -1225,7 +1225,7 @@ const lang=document.documentElement.lang||"fr";for(const key of ["terms.content"
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))$('cfi-chat-close').click();});
   $('cfi-chat-form').addEventListener('submit',async e=>{
     e.preventDefault();if(busy)return;const input=$('cfi-chat-input'),message=input.value.trim();if(!message)return;
-    renderTurnstile();if(!token){setStatus(widgetError?labels[lang].failed:labels[lang].verify,widgetError);return;}
+    renderTurnstile();if(!token){const notice=widgetError?labels[lang].failed:labels[lang].verify;setStatus(notice,widgetError);add(notice,'bot');return;}
     busy=true;$('cfi-chat-send').disabled=true;add(message,'user');input.value='';
     const usedToken=token;token='';
     try{const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,turnstileToken:usedToken})});const data=await r.json();if(!r.ok||typeof data.reply!=='string')throw Error(data.error||'Chat unavailable');add(data.reply,'bot');}
