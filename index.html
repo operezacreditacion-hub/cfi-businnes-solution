@@ -1193,6 +1193,8 @@ const lang=document.documentElement.lang||"fr";for(const key of ["terms.content"
     es:{welcome:'¡Hola! ¿En qué podemos ayudarte hoy?',subtitle:'Asistente virtual · FR / EN / ES',placeholder:'Escribe tu mensaje…',human:'Hablar con un asesor ↗',note:'No compartas información financiera confidencial.',error:'El servicio no está disponible temporalmente. Contacta con nuestro equipo.'}
   };
   let busy=false,lang='fr';
+  // Conversation context remains in this browser tab only; nothing is stored permanently.
+  const chatHistory=[];
   // The Worker checks a simple honeypot and elapsed time. These checks are not a CAPTCHA.
   const openedAt=performance.now();
   function add(text,kind){const el=document.createElement('div');el.className='msg '+kind;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;}
@@ -1206,8 +1208,11 @@ const lang=document.documentElement.lang||"fr";for(const key of ["terms.content"
     busy=true;$('cfi-chat-send').disabled=true;add(message,'user');input.value='';
     try{
       const elapsedMs=Math.max(1001,Math.min(86400000,Math.round(performance.now()-openedAt)));
-      const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,website:'',elapsedMs})});
-      const data=await r.json();if(!r.ok||typeof data.reply!=='string')throw Error(data.error||'Chat unavailable');add(data.reply,'bot');
+      const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,history:chatHistory.slice(-10),website:'',elapsedMs})});
+      const data=await r.json();if(!r.ok||typeof data.reply!=='string')throw Error(data.error||'Chat unavailable');
+      add(data.reply,'bot');
+      chatHistory.push({role:'user',text:message},{role:'assistant',text:data.reply});
+      if(chatHistory.length>12)chatHistory.splice(0,chatHistory.length-12);
     }catch(err){console.warn('CFI chat:',err);add(labels[lang].error,'bot');}
     finally{busy=false;$('cfi-chat-send').disabled=false;}
   });
