@@ -232,6 +232,11 @@ footer a:hover{color:#fff}
 <meta property="og:url" content="https://cfibusinessolution.com/" />
 <meta name="twitter:card" content="summary" />
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "CFI Business Solutions", "url": "https://cfibusinessolution.com/", "email": "info@cfibusinessolution.com", "telephone": "+1-514-700-6428", "description": "Remote bookkeeping, reconciliations and financial record organization, primarily serving Canada with international remote services."}</script>
+<style id="cfi-ai-chat-style">
+#cfi-chat-launch{position:fixed;bottom:22px;right:22px;z-index:2147483000;border:0;border-radius:40px;background:#142d48;color:white;padding:14px 19px;box-shadow:0 10px 32px #142d4866;font-weight:700;cursor:pointer}
+#cfi-chat-panel{display:none;position:fixed;bottom:84px;right:20px;z-index:2147483000;width:min(370px,calc(100vw - 24px));height:min(570px,calc(100dvh - 115px));background:#fff;border:1px solid #dbe1e8;border-radius:17px;box-shadow:0 20px 65px #0b223e44;overflow:hidden;flex-direction:column;font:14px/1.5 system-ui,sans-serif}
+#cfi-chat-panel.open{display:flex}#cfi-chat-head{background:#142d48;color:white;padding:15px 16px;display:flex;justify-content:space-between;align-items:center}#cfi-chat-head button{color:white;background:transparent;border:0;font-size:23px;cursor:pointer}#cfi-chat-messages{padding:14px;flex:1;overflow-y:auto;background:#f7f9fc}#cfi-chat-messages .msg{padding:10px 12px;border-radius:12px;max-width:93%;margin:8px 0;white-space:pre-wrap;overflow-wrap:anywhere}#cfi-chat-messages .bot{background:white;border:1px solid #e1e7ee}#cfi-chat-messages .user{background:#dceafa;margin-left:auto}#cfi-chat-bottom{padding:12px;border-top:1px solid #e4e9ef}#cfi-chat-form{display:flex;gap:6px}#cfi-chat-input{flex:1;min-width:0;padding:10px;border:1px solid #cbd5e1;border-radius:8px}#cfi-chat-send{padding:8px 12px;background:#142d48;color:white;border:0;border-radius:8px;cursor:pointer}#cfi-chat-send:disabled{opacity:.5}#cfi-human{display:block;margin-top:10px;text-align:center;border:1px solid #d3bd96;border-radius:8px;padding:9px;color:#142d48;font-weight:700;text-decoration:none;background:#fff}#cfi-turnstile{margin-top:9px;min-height:0}#cfi-chat-note{font-size:11px;color:#536174;margin-top:6px}#cfi-chat-panel *{box-sizing:border-box}@media(max-width:500px){#cfi-chat-panel{right:12px;bottom:78px}#cfi-chat-launch{right:14px;bottom:14px}}
+</style>
 </head>
 <body>
 <header>
@@ -1163,6 +1168,54 @@ const lang=document.documentElement.lang||"fr";for(const key of ["terms.content"
   }
   document.addEventListener('DOMContentLoaded',refreshSEO);
   refreshSEO();
+})();
+</script>
+
+<!-- CFI AI chat: no secrets embedded in public HTML -->
+<button id="cfi-chat-launch" type="button" aria-controls="cfi-chat-panel" aria-expanded="false">✦ Assistant CFI</button>
+<section id="cfi-chat-panel" aria-label="CFI Business Solutions assistant" role="dialog" aria-modal="false">
+  <div id="cfi-chat-head"><div><strong>CFI Business Solutions</strong><div id="cfi-chat-subtitle" style="font-size:12px;opacity:.85">Assistant virtuel · FR / EN / ES</div></div><button id="cfi-chat-close" aria-label="Fermer">×</button></div>
+  <div id="cfi-chat-messages" aria-live="polite"></div>
+  <div id="cfi-chat-bottom">
+    <form id="cfi-chat-form"><input id="cfi-chat-input" maxlength="500" autocomplete="off" required placeholder="Écrivez votre message…" aria-label="Message"/><button id="cfi-chat-send" type="submit">➤</button></form>
+    <div id="cfi-turnstile"></div>
+    <div id="cfi-chat-note">Ne partagez pas de renseignements financiers sensibles.</div>
+    <a id="cfi-human" href="https://tawk.to/chat/6acd75db127a3334c35769cf/1k4p98oeq" target="_blank" rel="noopener noreferrer">Parler à un conseiller ↗</a>
+  </div>
+</section>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+<script id="cfi-ai-chat-script">
+(()=>{
+  const ENDPOINT='https://cfi-ai-assistant.operez-acreditacion.workers.dev/chat';
+  const SITE_KEY='0x4AAAAAAFVl3csmH-PXdBVn';
+  const $=id=>document.getElementById(id), panel=$('cfi-chat-panel'), launch=$('cfi-chat-launch'), messages=$('cfi-chat-messages');
+  const labels={
+    fr:{welcome:'Bonjour ! Comment pouvons-nous vous aider aujourd’hui ?',subtitle:'Assistant virtuel · FR / EN / ES',placeholder:'Écrivez votre message…',human:'Parler à un conseiller ↗',note:'Ne partagez pas de renseignements financiers sensibles.',error:'Le service est temporairement indisponible. Contactez notre équipe.',verify:'Veuillez terminer la vérification de sécurité.'},
+    en:{welcome:'Hello! How can we help you today?',subtitle:'Virtual assistant · FR / EN / ES',placeholder:'Type your message…',human:'Speak to an adviser ↗',note:'Do not share sensitive financial information.',error:'The service is temporarily unavailable. Please contact our team.',verify:'Please complete the security check.'},
+    es:{welcome:'¡Hola! ¿En qué podemos ayudarte hoy?',subtitle:'Asistente virtual · FR / EN / ES',placeholder:'Escribe tu mensaje…',human:'Hablar con un asesor ↗',note:'No compartas información financiera confidencial.',error:'El servicio no está disponible temporalmente. Contacta con nuestro equipo.',verify:'Completa la verificación de seguridad.'}
+  };
+  let widgetId=null, busy=false, lang='fr';
+  function add(text,kind){const el=document.createElement('div');el.className='msg '+kind;el.textContent=text;messages.appendChild(el);messages.scrollTop=messages.scrollHeight;}
+  function update(){lang=labels[document.documentElement.lang]?document.documentElement.lang:'fr';const l=labels[lang];$('cfi-chat-subtitle').textContent=l.subtitle;$('cfi-chat-input').placeholder=l.placeholder;$('cfi-human').textContent=l.human;$('cfi-chat-note').textContent=l.note; if(!messages.children.length)add(l.welcome,'bot');}
+  function renderTurnstile(){if(widgetId!==null||!window.turnstile)return;widgetId=window.turnstile.render('#cfi-turnstile',{sitekey:SITE_KEY,theme:'auto'});}
+  launch.addEventListener('click',()=>{const open=!panel.classList.contains('open');panel.classList.toggle('open',open);launch.setAttribute('aria-expanded',String(open));if(open){update();renderTurnstile();$('cfi-chat-input').focus();}});
+  $('cfi-chat-close').addEventListener('click',()=>{panel.classList.remove('open');launch.setAttribute('aria-expanded','false');});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&panel.classList.contains('open'))$('cfi-chat-close').click();});
+  $('cfi-chat-form').addEventListener('submit',async e=>{
+    e.preventDefault();if(busy)return;const input=$('cfi-chat-input');const message=input.value.trim();if(!message)return;
+    renderTurnstile();const token=widgetId!==null&&window.turnstile?window.turnstile.getResponse(widgetId):'';
+    if(!token){add(labels[lang].verify,'bot');return;}
+    busy=true;$('cfi-chat-send').disabled=true;add(message,'user');input.value='';
+    try{const r=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,turnstileToken:token})});const data=await r.json();if(!r.ok||typeof data.reply!=='string')throw Error(data.error||'Chat unavailable');add(data.reply,'bot');}
+    catch(err){console.warn('CFI chat:',err.message);add(labels[lang].error,'bot');}
+    finally{busy=false;$('cfi-chat-send').disabled=false;if(widgetId!==null&&window.turnstile)window.turnstile.reset(widgetId);}
+  });
+  const original=window.setLang;window.setLang=function(l){if(typeof original==='function')original.apply(this,arguments);update();};
+  new MutationObserver(()=>{if(panel.classList.contains('open'))update();}).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
+  update();
+  // Hide the old bubble only after launching the unified interface; human chat remains accessible through the link.
+  function hideTawk(){try{if(window.Tawk_API&&typeof window.Tawk_API.hideWidget==='function')window.Tawk_API.hideWidget();}catch(_){}}
+  window.Tawk_API=window.Tawk_API||{};const prev=window.Tawk_API.onLoad;window.Tawk_API.onLoad=function(){if(typeof prev==='function')prev();hideTawk();};hideTawk();
 })();
 </script>
 </body>
