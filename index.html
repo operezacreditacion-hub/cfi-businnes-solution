@@ -77,6 +77,22 @@ footer { background:#0a1f3d; color:#9ca3af; text-align:center; padding:1.5rem; f
   #quote-modal > div { margin: .5rem; padding: 1.2rem; }
 }
 
+
+.plan-card { transition: transform .2s ease, box-shadow .2s ease; }
+.plan-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+
+.plans-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.2rem; align-items:stretch; }
+.plan-card { 
+  background:#fff; border-radius:12px; padding:1.5rem; 
+  box-shadow:0 2px 8px rgba(0,0,0,.06); 
+  display:flex; flex-direction:column; 
+  transition: transform .2s ease, box-shadow .2s ease;
+  height:100%;
+}
+.plan-card:hover { 
+  transform: translateY(-6px); 
+  box-shadow: 0 10px 28px rgba(0,0,0,.14); 
+}
 </style>
 </head>
 <body>
@@ -128,10 +144,12 @@ footer { background:#0a1f3d; color:#9ca3af; text-align:center; padding:1.5rem; f
     <div class="svc" onclick="showDetail(1)"><div class="num">01</div><h3 data-i18n="svc.1.t">Bookkeeping mensuel</h3><p data-i18n="svc.1.d">Cliquez pour voir le détail</p></div>
     <div class="svc" onclick="showDetail(2)"><div class="num">02</div><h3 data-i18n="svc.2.t">Rapprochements bancaires</h3><p data-i18n="svc.2.d">Cliquez pour voir le détail</p></div>
     <div class="svc" onclick="showDetail(3)"><div class="num">03</div><h3 data-i18n="svc.3.t">États financiers</h3><p data-i18n="svc.3.d">Cliquez pour voir le détail</p></div>
-    <div class="svc" onclick="showDetail(4)"><div class="num">04</div><h3 data-i18n="svc.4.t">Paie / Payroll</h3><p data-i18n="svc.4.d">Cliquez pour voir le détail</p></div>
+    <div class="svc" onclick="showDetail(4)" style="position:relative;">
+      <span style="position:absolute; top:.5rem; right:.5rem; background:#f59e0b; color:#fff; font-size:.68rem; padding:.12rem .45rem; border-radius:20px;" data-i18n="svc.soon">Prochainement</span><div class="num">04</div><h3 data-i18n="svc.4.t">Paie / Payroll</h3><p data-i18n="svc.4.d">Cliquez pour voir le détail</p></div>
     <div class="svc" onclick="showDetail(5)"><div class="num">05</div><h3 data-i18n="svc.5.t">Comptes clients & fournisseurs</h3><p data-i18n="svc.5.d">Cliquez pour voir le détail</p></div>
     <div class="svc" onclick="showDetail(6)"><div class="num">06</div><h3 data-i18n="svc.6.t">Inventaires</h3><p data-i18n="svc.6.d">Cliquez pour voir le détail</p></div>
-    <div class="svc" onclick="showDetail(7)"><div class="num">07</div><h3 data-i18n="svc.7.t">Préparation fiscale (Canada)</h3><p data-i18n="svc.7.d">Cliquez pour voir le détail</p></div>
+    <div class="svc" onclick="showDetail(7)" style="position:relative;">
+      <span style="position:absolute; top:.5rem; right:.5rem; background:#f59e0b; color:#fff; font-size:.68rem; padding:.12rem .45rem; border-radius:20px;" data-i18n="svc.soon">Prochainement</span><div class="num">07</div><h3 data-i18n="svc.7.t">Préparation fiscale (Canada)</h3><p data-i18n="svc.7.d">Cliquez pour voir le détail</p></div>
   </div>
 </section>
 
@@ -151,7 +169,7 @@ footer { background:#0a1f3d; color:#9ca3af; text-align:center; padding:1.5rem; f
 
 <section id="about" class="section reveal">
   <h2 data-i18n="about.title">Quiénes somos</h2>
-  <p data-i18n="about.text">CFI Business Solutions es un equipo especializado en bookkeeping, paie y gestión financiera. Acompañamos a las empresas con rigor, claridad y un enfoque práctico para que sus números estén siempre organizados y confiables.</p>
+  <p data-i18n="about.text">En CFI Business Solutions acompañamos a los dueños de negocios con un enfoque estructurado y profesional. Nuestro proceso incluye el registro y clasificación de transacciones, conciliaciones bancarias, seguimiento de cuentas por cobrar y por pagar, gestión de inventarios y preparación de documentos para el cierre anual.</p>
 </section>
 
 <section id="why" class="section reveal" style="background:var(--accent);">
@@ -185,16 +203,16 @@ footer { background:#0a1f3d; color:#9ca3af; text-align:center; padding:1.5rem; f
 <section id="pricing" class="section reveal" style="background:#f9fafb;">
   <h2 data-i18n="pricing.title" style="text-align:center;">Plans de bookkeeping</h2>
   <p class="sub" data-i18n="pricing.sub" style="text-align:center;">Tarification simple et transparente.</p>
-  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(270px,1fr)); gap:1.5rem; margin-top:2rem; max-width:1100px; margin-left:auto; margin-right:auto;">
+  <div class="plans-grid" style="margin-top:2rem; max-width:1100px; margin-left:auto; margin-right:auto;">
     <!-- Basic -->
-    <div style="background:#fff; border-radius:12px; padding:1.6rem; box-shadow:0 2px 8px rgba(0,0,0,.06); display:flex; flex-direction:column;">
+    <div class="plan-card" style="background:#fff; border-radius:12px; padding:1.6rem; box-shadow:0 2px 8px rgba(0,0,0,.06); display:flex; flex-direction:column;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start;">
         <h3 style="margin:0;" data-i18n="plan.basic">Basic</h3>
         <span style="background:#f3f4f6; padding:.3rem .7rem; border-radius:20px; font-size:.85rem; font-weight:600;">$179/mois*</span>
       </div>
       <p style="color:#6b7280; font-size:.9rem; margin:.6rem 0 1rem;" data-i18n="plan.basic.desc">Pour les petites entreprises qui s’organisent.</p>
       <ul style="list-style:disc; padding-left:1.2rem; color:#374151; font-size:.92rem; flex:1; line-height:1.6;">
-        <li data-i18n="plan.basic.1">Jusqu’à 30 transactions</li>
+        <li data-i18n="plan.basic.1">Jusqu’à 40 transactions</li>
         <li data-i18n="plan.basic.2">1 compte bancaire</li>
         <li data-i18n="plan.basic.3">Enregistrement et classification</li>
         <li data-i18n="plan.basic.4">Rapprochement mensuel</li>
@@ -203,7 +221,7 @@ footer { background:#0a1f3d; color:#9ca3af; text-align:center; padding:1.5rem; f
       <button onclick="openQuote('Basic')" class="btn" style="margin-top:1.2rem; width:100%; background:#fff; color:var(--blue); border:1px solid var(--blue);" data-i18n="plan.request">Demander ce plan</button>
     </div>
     <!-- Essential (Popular) -->
-    <div style="background:#fff; border-radius:12px; padding:1.6rem; box-shadow:0 4px 16px rgba(0,0,0,.1); border:2px solid var(--blue); display:flex; flex-direction:column; position:relative;">
+    <div class="plan-card" style="background:#fff; border-radius:12px; padding:1.6rem; box-shadow:0 4px 16px rgba(0,0,0,.1); border:2px solid var(--blue); display:flex; flex-direction:column; position:relative;">
       <span style="position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--blue); color:#fff; font-size:.75rem; padding:.25rem .8rem; border-radius:20px;" data-i18n="plan.popular">Populaire</span>
       <div style="display:flex; justify-content:space-between; align-items:flex-start;">
         <h3 style="margin:0;" data-i18n="plan.essential">Essential</h3>
@@ -211,7 +229,7 @@ footer { background:#0a1f3d; color:#9ca3af; text-align:center; padding:1.5rem; f
       </div>
       <p style="color:#6b7280; font-size:.9rem; margin:.6rem 0 1rem;" data-i18n="plan.essential.desc">Pour les entreprises en croissance.</p>
       <ul style="list-style:disc; padding-left:1.2rem; color:#374151; font-size:.92rem; flex:1; line-height:1.6;">
-        <li data-i18n="plan.essential.1">Jusqu’à 60 transactions</li>
+        <li data-i18n="plan.essential.1">Jusqu’à 80 transactions</li>
         <li data-i18n="plan.essential.2">2 comptes bancaires</li>
         <li data-i18n="plan.essential.3">Enregistrement et classification</li>
         <li data-i18n="plan.essential.4">Rapprochements mensuels</li>
@@ -223,14 +241,14 @@ footer { background:#0a1f3d; color:#9ca3af; text-align:center; padding:1.5rem; f
       <button onclick="openQuote('Essential')" class="btn" style="margin-top:1.2rem; width:100%;" data-i18n="plan.request">Demander ce plan</button>
     </div>
     <!-- Pro -->
-    <div style="background:#fff; border-radius:12px; padding:1.6rem; box-shadow:0 2px 8px rgba(0,0,0,.06); display:flex; flex-direction:column;">
+    <div class="plan-card" style="background:#fff; border-radius:12px; padding:1.6rem; box-shadow:0 2px 8px rgba(0,0,0,.06); display:flex; flex-direction:column;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start;">
         <h3 style="margin:0;" data-i18n="plan.pro">Pro</h3>
         <span style="background:#f3f4f6; padding:.3rem .7rem; border-radius:20px; font-size:.85rem; font-weight:600;">$449/mois*</span>
       </div>
       <p style="color:#6b7280; font-size:.9rem; margin:.6rem 0 1rem;" data-i18n="plan.pro.desc">Pour les entreprises avec plus d’activité.</p>
       <ul style="list-style:disc; padding-left:1.2rem; color:#374151; font-size:.92rem; flex:1; line-height:1.6;">
-        <li data-i18n="plan.pro.1">Jusqu’à 100 transactions</li>
+        <li data-i18n="plan.pro.1">Jusqu’à 150 transactions</li>
         <li data-i18n="plan.pro.2">Jusqu’à 3 comptes</li>
         <li data-i18n="plan.pro.3">Enregistrement et classification complets</li>
         <li data-i18n="plan.pro.4">Rapprochements mensuels</li>
@@ -243,6 +261,28 @@ footer { background:#0a1f3d; color:#9ca3af; text-align:center; padding:1.5rem; f
       <button onclick="openQuote('Pro')" class="btn" style="margin-top:1.2rem; width:100%; background:#fff; color:var(--blue); border:1px solid var(--blue);" data-i18n="plan.request">Demander ce plan</button>
     </div>
   </div>
+  
+    <div style="background:#fff; border-radius:12px; padding:1.6rem; box-shadow:0 2px 8px rgba(0,0,0,.06); display:flex; flex-direction:column; opacity:.9; position:relative;">
+      <span style="position:absolute; top:.8rem; right:.8rem; background:#f59e0b; color:#fff; font-size:.7rem; padding:.15rem .5rem; border-radius:20px;" data-i18n="svc.soon">Prochainement</span>
+      <h3 data-i18n="plan.payroll">Payroll</h3>
+      <p style="color:#6b7280; font-size:.9rem; margin:.5rem 0 1rem;" data-i18n="plan.payroll.desc">Service de paie (bientôt disponible).</p>
+      <ul style="list-style:disc; padding-left:1.2rem; color:#374151; font-size:.92rem; flex:1;">
+        <li data-i18n="plan.payroll.1">Calcul des salaires</li>
+        <li data-i18n="plan.payroll.2">Préparation des talons de paie</li>
+        <li data-i18n="plan.payroll.3">Suivi des déductions</li>
+      </ul>
+    </div>
+    <div style="background:#fff; border-radius:12px; padding:1.6rem; box-shadow:0 2px 8px rgba(0,0,0,.06); display:flex; flex-direction:column; opacity:.9; position:relative;">
+      <span style="position:absolute; top:.8rem; right:.8rem; background:#f59e0b; color:#fff; font-size:.7rem; padding:.15rem .5rem; border-radius:20px;" data-i18n="svc.soon">Prochainement</span>
+      <h3 data-i18n="plan.tax">Préparation fiscale</h3>
+      <p style="color:#6b7280; font-size:.9rem; margin:.5rem 0 1rem;" data-i18n="plan.tax.desc">Préparation des documents fiscaux (bientôt disponible).</p>
+      <ul style="list-style:disc; padding-left:1.2rem; color:#374151; font-size:.92rem; flex:1;">
+        <li data-i18n="plan.tax.1">Organisation des documents fiscaux</li>
+        <li data-i18n="plan.tax.2">Préparation pour le comptable</li>
+        <li data-i18n="plan.tax.3">Support pour déclarations canadiennes</li>
+      </ul>
+    </div>
+
   <!-- Year-End card -->
   <div style="max-width:400px; margin:2rem auto 0; background:#fff; border-radius:12px; padding:1.6rem; box-shadow:0 2px 8px rgba(0,0,0,.06); border:1px solid #16a34a;">
     <div style="display:flex; justify-content:space-between; align-items:flex-start;">
@@ -326,7 +366,7 @@ const t = {
     "svc.7.t":"Préparation fiscale (Canada)","svc.7.d":"Cliquez pour voir le détail",
     "svc.7.pro":"Nous préparons l’ensemble de vos documents fiscaux canadiens (T1, T2, TPS/TVH, etc.). Tout est organisé et laissé prêt pour que votre comptable puisse le réviser, le valider et le transmettre à l’ARC et aux régimes provinciaux.",
     "about.title":"Qui sommes-nous",
-    "about.text":"CFI Business Solutions accompagne les entreprises avec un service de bookkeeping et de gestion financière structuré. Nous nous concentrons sur des registres clairs, des rapprochements précis et une communication simple pour que vous ayez toujours une vision fiable de votre situation.",
+    "about.text":"Chez CFI Business Solutions, nous accompagnons les dirigeants avec une approche structurée et professionnelle. Notre processus comprend l’enregistrement et la classification des transactions, les rapprochements bancaires, le suivi des comptes clients et fournisseurs, la gestion des inventaires et la préparation des documents de clôture. Une comptabilité mal tenue peut entraîner des erreurs dans les rapports, des difficultés avec votre comptable, des retards fiscaux et une mauvaise visibilité sur la santé de votre entreprise. Nous vous aidons à éviter ces problèmes en maintenant des registres précis et organisés, pour que vous puissiez prendre de meilleures décisions.",
     "why.title":"Des registres clairs, sans le bruit.",
     "why.sub":"CFI se concentre sur une comptabilité pratique : registres précis, rapports opportuns et communication claire.",
     "why.1":"Livres précis","why.1d":"Catégorisation cohérente et rapprochements réguliers.",
@@ -344,13 +384,13 @@ const t = {
     "contact.title":"Besoin d’aide avec votre comptabilité, paie ou inventaires ?",
     "contact.sub":"Envoyez un message pour demander une consultation.",
     "contact.send":"Envoyer le message",
-    "detail.more":"En savoir plus",
+    "detail.more":"En savoir plus","svc.soon":"Prochainement","plan.payroll":"Paie","plan.payroll.desc":"Service de paie (bientôt disponible).","plan.payroll.1":"Calcul des salaires","plan.payroll.2":"Préparation des talons de paie","plan.payroll.3":"Suivi des déductions","plan.tax":"Préparation fiscale","plan.tax.desc":"Préparation des documents fiscaux (bientôt disponible).","plan.tax.1":"Organisation des documents fiscaux","plan.tax.2":"Préparation pour le comptable","plan.tax.3":"Support pour déclarations canadiennes",
     "nav.pricing":"Plans",
     "pricing.title":"Plans de bookkeeping",
     "pricing.sub":"Tarification simple et transparente. Les frais de logiciels sont facturés séparément.",
-    "plan.basic":"Basic","plan.basic.desc":"Para negocios pequeños que se están organizando.","plan.basic.desc":"For small businesses getting organized.","plan.basic.desc":"Pour les petites entreprises qui s’organisent.","plan.basic.1":"Jusqu’à 30 transactions","plan.basic.2":"1 compte bancaire","plan.basic.3":"Enregistrement, classification et rapprochement","plan.basic.4":"Rapprochement mensuel","plan.basic.5":"Rapport de revenus et dépenses",
-    "plan.essential":"Essential","plan.essential.desc":"Para negocios en crecimiento.","plan.essential.desc":"For growing businesses.","plan.essential.desc":"Pour les entreprises en croissance.","plan.essential.1":"Jusqu’à 60 transactions","plan.essential.2":"2 comptes bancaires","plan.essential.3":"Enregistrement et classification","plan.essential.4":"Rapprochements mensuels","plan.essential.5":"Suivi des comptes clients et fournisseurs","plan.essential.6":"Rapports mensuels","plan.essential.7":"Organisation pour la fin d’année","plan.essential.8":"Suivi de base des inventaires",
-    "plan.pro":"Pro","plan.pro.desc":"Para negocios con más actividad.","plan.pro.desc":"For businesses with more activity.","plan.pro.desc":"Pour les entreprises avec plus d’activité.","plan.pro.1":"Tout ce qui est dans Essential","plan.pro.2":"Jusqu’à 100 transactions","plan.pro.3":"Rapports plus détaillés","plan.pro.4":"Support prioritaire",
+    "plan.basic":"Basic","plan.basic.desc":"Para negocios pequeños que se están organizando.","plan.basic.desc":"For small businesses getting organized.","plan.basic.desc":"Pour les petites entreprises qui s’organisent.","plan.basic.1":"Jusqu’à 40 transactions","plan.basic.2":"1 compte bancaire","plan.basic.3":"Enregistrement, classification et rapprochement","plan.basic.4":"Rapprochement mensuel","plan.basic.5":"Rapport de revenus et dépenses",
+    "plan.essential":"Essential","plan.essential.desc":"Para negocios en crecimiento.","plan.essential.desc":"For growing businesses.","plan.essential.desc":"Pour les entreprises en croissance.","plan.essential.1":"Jusqu’à 80 transactions","plan.essential.2":"2 comptes bancaires","plan.essential.3":"Enregistrement et classification","plan.essential.4":"Rapprochements mensuels","plan.essential.5":"Suivi des comptes clients et fournisseurs","plan.essential.6":"Rapports mensuels","plan.essential.7":"Organisation pour la fin d’année","plan.essential.8":"Suivi de base des inventaires",
+    "plan.pro":"Pro","plan.pro.desc":"Para negocios con más actividad.","plan.pro.desc":"For businesses with more activity.","plan.pro.desc":"Pour les entreprises avec plus d’activité.","plan.pro.1":"Tout ce qui est dans Essential","plan.pro.2":"Jusqu’à 150 transactions","plan.pro.3":"Rapports plus détaillés","plan.pro.4":"Support prioritaire",
     "addon.title":"Service additionnel : Year-End Bookkeeping Package","addon.price":"À partir de $450 CAD","addon.1":"Livres rapprochés en fin d’année","addon.2":"Rapports finaux (P&L et Bilan)","addon.3":"Documents organisés pour le comptable",
     "pricing.note":"Les frais de logiciels (QuickBooks Online, etc.) et le service de paie sont facturés séparément. Le Year-End Package ne comprend pas la préparation ni le dépôt des déclarations fiscales.","plan.request":"Demander ce plan","plan.popular":"Populaire",
     "quote.btn":"Obtenir un devis","quote.title":"Obtenir un devis","quote.service":"Service souhaité *","quote.send":"Envoyer","quote.company":"Nom de l’entreprise *",
@@ -424,7 +464,7 @@ Pour toute question relative à la protection des renseignements personnels : in
     "svc.7.t":"Canadian Tax Preparation","svc.7.d":"Click to see details",
     "svc.7.pro":"We prepare all your Canadian tax documents (T1, T2, GST/HST, etc.). Everything is organized and left ready so your accountant can review it, validate it, and file it with the CRA and provincial regimes.",
     "about.title":"Who we are",
-    "about.text":"CFI Business Solutions supports businesses with structured bookkeeping and financial management. We focus on clear records, accurate reconciliations, and straightforward communication so you always have a reliable view of your situation.",
+    "about.text":"At CFI Business Solutions, we support business owners with a structured and professional approach. Our process includes transaction recording and categorization, bank reconciliations, accounts receivable and payable tracking, inventory management, and year-end document preparation. Poor bookkeeping can lead to inaccurate reports, difficulties with your accountant, tax delays, and poor visibility into your business health. We help you avoid these issues by keeping precise and organized records so you can make better decisions.",
     "why.title":"Clear records without the noise.",
     "why.sub":"CFI focuses on practical bookkeeping: accurate records, timely reports, and clear communication.",
     "why.1":"Accurate books","why.1d":"Consistent categorization and regular reconciliations.",
@@ -442,13 +482,13 @@ Pour toute question relative à la protection des renseignements personnels : in
     "contact.title":"Need help with bookkeeping, payroll, or inventory?",
     "contact.sub":"Send a message to request a consultation.",
     "contact.send":"Send message",
-    "detail.more":"Learn more","svc.tax.soon":"Coming soon",
+    "detail.more":"Learn more","svc.soon":"Coming soon","plan.payroll":"Payroll","plan.payroll.desc":"Payroll service (coming soon).","plan.payroll.1":"Salary calculations","plan.payroll.2":"Pay stub preparation","plan.payroll.3":"Deduction tracking","plan.tax":"Tax Preparation","plan.tax.desc":"Tax document preparation (coming soon).","plan.tax.1":"Tax document organization","plan.tax.2":"Preparation for your accountant","plan.tax.3":"Support for Canadian filings",
     "nav.pricing":"Plans",
     "pricing.title":"Bookkeeping Plans",
     "pricing.sub":"Simple and transparent pricing. Software fees are billed separately.",
-    "plan.basic":"Basic","plan.basic.desc":"Para negocios pequeños que se están organizando.","plan.basic.desc":"For small businesses getting organized.","plan.basic.desc":"Pour les petites entreprises qui s’organisent.","plan.basic.1":"Up to 30 transactions","plan.basic.2":"1 bank account","plan.basic.3":"Recording, categorization and reconciliation","plan.basic.4":"Monthly reconciliation","plan.basic.5":"Income and expense report",
-    "plan.essential":"Essential","plan.essential.desc":"Para negocios en crecimiento.","plan.essential.desc":"For growing businesses.","plan.essential.desc":"Pour les entreprises en croissance.","plan.essential.1":"Up to 60 transactions","plan.essential.2":"2 bank accounts","plan.essential.3":"Recording and categorization","plan.essential.4":"Monthly reconciliations","plan.essential.5":"Accounts receivable and payable tracking","plan.essential.6":"Monthly reports","plan.essential.7":"Year-end organization","plan.essential.8":"Basic inventory tracking",
-    "plan.pro":"Pro","plan.pro.desc":"Para negocios con más actividad.","plan.pro.desc":"For businesses with more activity.","plan.pro.desc":"Pour les entreprises avec plus d’activité.","plan.pro.1":"Up to 100 transactions","plan.pro.2":"Up to 3 accounts","plan.pro.3":"Full recording and categorization","plan.pro.4":"Monthly reconciliations","plan.pro.5":"AR/AP tracking","plan.pro.6":"Detailed reports","plan.pro.7":"Priority support","plan.pro.8":"Year-end organization","plan.pro.9":"Inventory tracking",
+    "plan.basic":"Basic","plan.basic.desc":"Para negocios pequeños que se están organizando.","plan.basic.desc":"For small businesses getting organized.","plan.basic.desc":"Pour les petites entreprises qui s’organisent.","plan.basic.1":"Up to 40 transactions","plan.basic.2":"1 bank account","plan.basic.3":"Recording, categorization and reconciliation","plan.basic.4":"Monthly reconciliation","plan.basic.5":"Income and expense report",
+    "plan.essential":"Essential","plan.essential.desc":"Para negocios en crecimiento.","plan.essential.desc":"For growing businesses.","plan.essential.desc":"Pour les entreprises en croissance.","plan.essential.1":"Up to 80 transactions","plan.essential.2":"2 bank accounts","plan.essential.3":"Recording and categorization","plan.essential.4":"Monthly reconciliations","plan.essential.5":"Accounts receivable and payable tracking","plan.essential.6":"Monthly reports","plan.essential.7":"Year-end organization","plan.essential.8":"Basic inventory tracking",
+    "plan.pro":"Pro","plan.pro.desc":"Para negocios con más actividad.","plan.pro.desc":"For businesses with more activity.","plan.pro.desc":"Pour les entreprises avec plus d’activité.","plan.pro.1":"Up to 150 transactions","plan.pro.2":"Up to 3 accounts","plan.pro.3":"Full recording and categorization","plan.pro.4":"Monthly reconciliations","plan.pro.5":"AR/AP tracking","plan.pro.6":"Detailed reports","plan.pro.7":"Priority support","plan.pro.8":"Year-end organization","plan.pro.9":"Inventory tracking",
     "addon.title":"Additional service: Year-End Bookkeeping Package","addon.price":"Starting at $450 CAD","addon.1":"Year-end reconciled books","addon.2":"Final reports (P&L and Balance Sheet)","addon.3":"Documents organized for your accountant",
     "pricing.note":"Software fees (QuickBooks Online, etc.) and payroll services are billed separately. The Year-End Package does not include tax return preparation or filing.","plan.request":"Request this plan","plan.popular":"Popular",
     "quote.btn":"Get a Quote","quote.title":"Get a Quote","quote.service":"Desired service *","quote.send":"Send","quote.company":"Company name *",
@@ -522,7 +562,7 @@ For any questions regarding the protection of personal information: info@cfibusi
     "svc.7.t":"Preparación fiscal canadiense","svc.7.d":"Haz clic para ver el detalle",
     "svc.7.pro":"Preparamos todos tus documentos fiscales canadienses (T1, T2, GST/HST, etc.). Todo queda organizado y listo para que tu contador lo revise, lo valide y lo envíe a la CRA y a los regímenes provinciales.",
     "about.title":"Quiénes somos",
-    "about.text":"CFI Business Solutions acompaña a las empresas con un servicio de bookkeeping y gestión financiera estructurado. Nos enfocamos en registros claros, conciliaciones precisas y una comunicación sencilla para que siempre tengas una visión confiable de tu situación.",
+    "about.text":"En CFI Business Solutions acompañamos a los dueños de negocios con un enfoque estructurado y profesional. Nuestro proceso incluye el registro y clasificación de transacciones, conciliaciones bancarias, seguimiento de cuentas por cobrar y por pagar, gestión de inventarios y preparación de documentos para el cierre anual. Una contabilidad mal llevada puede generar reportes incorrectos, problemas con tu contador, retrasos fiscales y poca visibilidad sobre la salud de tu negocio. Te ayudamos a evitar estos problemas manteniendo registros precisos y organizados para que puedas tomar mejores decisiones.",
     "why.title":"Registros claros, sin ruido.",
     "why.sub":"CFI se enfoca en contabilidad práctica: registros precisos, reportes oportunos y comunicación clara.",
     "why.1":"Libros precisos","why.1d":"Categorización consistente y conciliaciones regulares.",
@@ -540,13 +580,13 @@ For any questions regarding the protection of personal information: info@cfibusi
     "contact.title":"¿Necesitas ayuda con tu contabilidad, nómina o inventarios?",
     "contact.sub":"Envía un mensaje para solicitar una consulta.",
     "contact.send":"Enviar mensaje",
-    "detail.more":"Saber más","svc.tax.soon":"Próximamente",
+    "detail.more":"Saber más","svc.soon":"Próximamente","plan.payroll":"Nómina","plan.payroll.desc":"Servicio de nómina (próximamente).","plan.payroll.1":"Cálculo de salarios","plan.payroll.2":"Preparación de recibos de nómina","plan.payroll.3":"Seguimiento de deducciones","plan.tax":"Preparación fiscal","plan.tax.desc":"Preparación de documentos fiscales (próximamente).","plan.tax.1":"Organización de documentos fiscales","plan.tax.2":"Preparación para tu contador","plan.tax.3":"Apoyo para declaraciones canadienses",
     "nav.pricing":"Planes",
     "pricing.title":"Planes de bookkeeping",
     "pricing.sub":"Precios simples y transparentes. Los costos de software se facturan por separado.",
-    "plan.basic":"Basic","plan.basic.desc":"Para negocios pequeños que se están organizando.","plan.basic.desc":"For small businesses getting organized.","plan.basic.desc":"Pour les petites entreprises qui s’organisent.","plan.basic.1":"Hasta 30 transacciones","plan.basic.2":"1 cuenta bancaria","plan.basic.3":"Registro, clasificación y conciliación","plan.basic.4":"Conciliación mensual","plan.basic.5":"Reporte de ingresos y gastos",
-    "plan.essential":"Essential","plan.essential.desc":"Para negocios en crecimiento.","plan.essential.desc":"For growing businesses.","plan.essential.desc":"Pour les entreprises en croissance.","plan.essential.1":"Hasta 60 transacciones","plan.essential.2":"2 cuentas bancarias","plan.essential.3":"Registro y clasificación","plan.essential.4":"Conciliaciones mensuales","plan.essential.5":"Seguimiento de cuentas por cobrar y por pagar","plan.essential.6":"Reportes mensuales","plan.essential.7":"Organización para cierre de año","plan.essential.8":"Seguimiento básico de inventarios",
-    "plan.pro":"Pro","plan.pro.desc":"Para negocios con más actividad.","plan.pro.desc":"For businesses with more activity.","plan.pro.desc":"Pour les entreprises avec plus d’activité.","plan.pro.1":"Hasta 100 transacciones","plan.pro.2":"Hasta 3 cuentas","plan.pro.3":"Registro y clasificación completos","plan.pro.4":"Conciliaciones mensuales","plan.pro.5":"Seguimiento AR/AP","plan.pro.6":"Reportes detallados","plan.pro.7":"Soporte prioritario","plan.pro.8":"Organización para cierre de año","plan.pro.9":"Seguimiento de inventarios",
+    "plan.basic":"Basic","plan.basic.desc":"Para negocios pequeños que se están organizando.","plan.basic.desc":"For small businesses getting organized.","plan.basic.desc":"Pour les petites entreprises qui s’organisent.","plan.basic.1":"Hasta 40 transacciones","plan.basic.2":"1 cuenta bancaria","plan.basic.3":"Registro, clasificación y conciliación","plan.basic.4":"Conciliación mensual","plan.basic.5":"Reporte de ingresos y gastos",
+    "plan.essential":"Essential","plan.essential.desc":"Para negocios en crecimiento.","plan.essential.desc":"For growing businesses.","plan.essential.desc":"Pour les entreprises en croissance.","plan.essential.1":"Hasta 80 transacciones","plan.essential.2":"2 cuentas bancarias","plan.essential.3":"Registro y clasificación","plan.essential.4":"Conciliaciones mensuales","plan.essential.5":"Seguimiento de cuentas por cobrar y por pagar","plan.essential.6":"Reportes mensuales","plan.essential.7":"Organización para cierre de año","plan.essential.8":"Seguimiento básico de inventarios",
+    "plan.pro":"Pro","plan.pro.desc":"Para negocios con más actividad.","plan.pro.desc":"For businesses with more activity.","plan.pro.desc":"Pour les entreprises avec plus d’activité.","plan.pro.1":"Hasta 150 transacciones","plan.pro.2":"Hasta 3 cuentas","plan.pro.3":"Registro y clasificación completos","plan.pro.4":"Conciliaciones mensuales","plan.pro.5":"Seguimiento AR/AP","plan.pro.6":"Reportes detallados","plan.pro.7":"Soporte prioritario","plan.pro.8":"Organización para cierre de año","plan.pro.9":"Seguimiento de inventarios",
     "addon.title":"Servicio adicional: Year-End Bookkeeping Package","addon.price":"Desde $450 CAD","addon.1":"Libros conciliados al cierre del año","addon.2":"Reportes finales (P&L y Balance)","addon.3":"Documentos organizados para tu contador",
     "pricing.note":"Los costos de software (QuickBooks Online, etc.) y el servicio de nómina se facturan por separado. El Year-End Package no incluye la preparación ni presentación de declaraciones de impuestos.","plan.request":"Solicitar este plan","plan.popular":"Popular",
     "quote.btn":"Solicitar cotización","quote.title":"Solicitar cotización","quote.service":"Servicio deseado *","quote.send":"Enviar","quote.company":"Nombre de la empresa *",
